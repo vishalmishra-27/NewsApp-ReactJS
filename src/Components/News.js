@@ -16,7 +16,8 @@ export class News extends Component {
     }
 
     async componentDidMount() {
-        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9a75f4d8313e43a69ece4fdddbc8c429&pageSize=100`;
+        this.props.setProgress(25);
+        let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9a75f4d8313e43a69ece4fdddbc8c429&pageSize=21`;
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
@@ -24,11 +25,13 @@ export class News extends Component {
             totalResults: parsedData.totalResults,
             loading: false
         });
+        this.props.setProgress(100);
     }
 
     handlepreviousclick = async () => {
+        this.props.setProgress(25);
         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9a75f4d8313e43a69ece4fdddbc8c429&page=${this.state.page - 1}&pageSize=21`;
-        this.setState({loading: true});
+        this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
@@ -36,11 +39,13 @@ export class News extends Component {
             page: this.state.page - 1,
             loading: false
         });
+        this.props.setProgress(100);
     }
 
     handlenextclick = async () => {
+        this.props.setProgress(25);
         let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=9a75f4d8313e43a69ece4fdddbc8c429&page=${this.state.page + 1}&pageSize=21`;
-        this.setState({loading: true});
+        this.setState({ loading: true });
         let data = await fetch(url);
         let parsedData = await data.json();
         this.setState({
@@ -48,6 +53,7 @@ export class News extends Component {
             page: this.state.page + 1,
             loading: false
         });
+        this.props.setProgress(100);
     }
 
     render() {
